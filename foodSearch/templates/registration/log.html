@@ -1,0 +1,117 @@
+<!--  Login Form Modal -->
+<div id="modalLogIn" class="modal fade modalLogIn" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title">Se connecter</h4>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+      </div>
+      <div class="modal-body">
+        <div class="row">
+          <div class="col-md-8 col-md-offset-2">
+          <p id="loginerror"></p>
+            <form id="loginform" action="{% url 'foodSearch:login' %}" method="POST">
+              {% csrf_token %}
+              <div class="form-group">
+                <input type="text" name="username" id="login-username" class="form-control"
+                 placeholder="Nom d'utilisateur" required="required"/>
+              </div>
+              <p class="text-danger text-center no-user-error" style="display:none;">Utilisateur introuvable, créez un compte ou réessayez</p>
+              <div class="form-group">
+                <input type="password" name="password" id="login-password" class="form-control"
+                 placeholder="Mot de passe" required="required" />
+              </div>
+
+              <p class="text-danger text-center password-error" style="display:none;">Mot de passe incorrect</p>
+
+              <input type="hidden" name="last_url" value="{{ request.get_full_path }}" />
+
+              <div class="form-group text-center">
+                <input type="submit" value="Login" class="btn btn-primary" id="signin-Submit">
+              </div>
+            </form>
+          </div>
+        </div>
+        <div class="modal-footer d-flex">
+          <p>
+            Vous n'avez toujours pas de compte Pur Beurre? Pas de panique, créez-en un :
+          </p>
+          <a id="registration" class="btn btn-secondary" data-toggle="modal" data-target="#modalRegister">Créer un compte</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- End of Login Modal -->
+
+<!--  Logout Form Modal -->
+<div id="modalLogOut" class="modal fade modalLogOut" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title">Se déconnecter</h4>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+      </div>
+      <div class="modal-body">
+        <p>Êtes-vous sûr de vouloir vous déconnecter?</p>
+        <a id="logoutbtn" href="{% url 'logout' %}" role="button" class="btn btn-primary">Oui, je me déconnecte</a>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- End of Logout Modal -->
+
+<!--  Register Form Modal -->
+<div id="modalRegister" class="modal fade modalLogOut" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title">Créer un compte</h4>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+      </div>
+      <div class="modal-body">
+        <form id="registerForm" method="post" action="{% url 'foodSearch:register' %}">
+          {% csrf_token %}
+          <div class="form-group">
+            <input type="text" name="username" id="signUp-username" class="form-control"
+             placeholder="Nom d'utilisateur" required="required"/>
+          </div>
+          <div class="text-danger text-center" id="username-error" style="display:none;">
+            <p>Un utilisateur existe déjà à ce nom</p>
+            <a class="connection" data-toggle="modal" data-target="#modalLogIn">Se connecter</a>
+          </div>
+          <div class="form-group">
+            <input type="email" name="email" id="signUp-email" class="form-control"
+             placeholder="Email" required="required" />
+          </div>
+          <div class="form-group">
+            <input type="password" name="password" id="signUp-password" class="form-control"
+             placeholder="Mot de passe" required="required" />
+          </div>
+          <button id="signUp-btn" type="submit" class="btn btn-secondary mt-3">Créer mon compte</button>
+          </form>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- End of Register Modal -->
+
+<!--  save_favorite not connected Form Modal -->
+<div id="modalNotConnected" class="modal fade" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title">Vous n'êtes pas encore connecté...</h4>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+      </div>
+      <div class="modal-body">
+        <p class="text-secondary text-center">Pour enregistrer ce produit dans votre liste de favoris, <br>Veuillez vous connecter ou créer votre compte.</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Fermer</button>
+        <a class="connection btn btn-primary" data-toggle="modal" data-target="#modalLogIn">Se connecter</a>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- End of save_favorite not connected-->

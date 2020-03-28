@@ -1,0 +1,55 @@
+{% extends 'foodSearch/base.html' %}
+{% load static %}
+
+{% block content %}
+
+{% include 'foodSearch/headerpages.html' with title=title %}
+
+<section style="background-color:#de9440;" class="page-section text-white" id="services">
+  <div class="container">
+      <h2 class="text-center mt-0">Veuillez sélectionner le produit recherché :</h2>
+      <hr class="divider my-4">
+      {% if found_products|length_is:"0" %}
+      <div class="text-center">
+        Palsambleu ! Nous n'avons trouvé aucun résultat à cette requête. Même pas de quoi se ronger la chique !
+        Partez de nouveau à l'abordage !
+      </div>
+    {% else %}
+      <div class="row">
+        {% for product in found_products %}
+          <div class="col-md-4 text-center mt-5">
+
+            <div class="img_prod row ml-3 mr-3">
+              <a href="/results/{{ product.id }}/" class="load m-auto" title="chercher un substitut">
+                  <img
+                    class="image-color-theme img-responsive"
+                    src="{{ product.image_small_url }}"
+                    alt="product img"
+                    />
+              </a>
+            </div>
+
+            <div class="row justify-content-center">
+              <a href="/results/{{ product.id }}/" class="load m-auto" title="chercher un substitut">
+                <h3 class="h4 mb-2 text-white">{{ product.name }}</h3>
+              </a>
+            </div>
+
+            <div class="row justify-content-center">
+              <a href="/detail/{{ product.id }}/">En savoir plus sur ce produit</a><br>
+            </div>
+
+            <div class="row justify-content-center">
+              <a href="/results/{{ product.id }}/" class="text-white load">Chercher un substitut</a>
+            </div>
+            <span class="grade upimg {{ product.nutrition_grade_fr }}">{{ product.nutrition_grade_fr }}</span>
+
+          </div>
+          {% if forloop.counter|divisibleby:3 %}<div class="clearfix"></div>{% endif %}
+      {% endfor %}
+      </div>
+    {% endif %}
+  </div>
+</section>
+
+{% endblock %}

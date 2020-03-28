@@ -1,0 +1,79 @@
+{% extends 'foodSearch/base.html' %}
+{% load static %}
+
+{% block content %}
+
+{% include 'foodSearch/headerpages.html' with title=title %}
+
+<section style="background-color:#de9440;" class="page-section text-white" id="services">
+  <div class="container">
+      {% if watchlistpage|length_is:"0" %}
+      <div class="text-center">
+        Vous n'avez pas de encore de favoris
+      </div>
+    {% else %}
+      <div class="row">
+        {% for favorite in watchlistpage %}
+        <div class="col-md-4 text-center mt-5 prodbox">
+
+          <div class="img_prod row ml-3 mr-3">
+            <a href="/detail/{{ favorite.substitute.id}}/" class="m-auto" title="Alternative à {{ favorite.initial_search_product.name }} {{ favorite.initial_search_product.brands }} (Nutriscore {{ favorite.initial_search_product.nutrition_grade_fr|upper}})">
+              <img
+                class="image-color-theme img-responsive"
+                src="{{ favorite.substitute.image_small_url }}"
+                alt="product image"
+                />
+            </a>
+          </div>
+
+          <div class="row justify-content-center">
+            <a href="/detail/{{ substitute.id }}/" title="En savoir plus sur ce produit">
+              <h3 class="h4 mb-2 text-white">{{ favorite.substitute.name }}</h3>
+            </a>
+          </div>
+
+          <div class="row justify-content-center">
+            <a href="/detail/{{ favorite.substitute.id }}/">En savoir plus sur ce produit</a><br>
+          </div>
+
+          <div class="row justify-content-center">
+            <form id="{{ favorite.substitute.id }}" class="favoriteForm wachlist" method="post">{% csrf_token %}
+              <input type="hidden" name="user" value="{{ user.id }}">
+              <input type="hidden" name="substitute" value="{{ favorite.substitute.id }}">
+              <input type="hidden" name="favorite" value="saved">
+              <input type="hidden" name="product" value="{{ favorite.initial_search_product.id }}">
+
+              <button type="submit" class="btn btn-link text-white"><span class='fas fa-floppy-o'></span> Retirer ce produit de mes favoris</button>
+            </form>
+          </div>
+
+            <span class="grade upimg {{ favorite.substitute.nutrition_grade_fr }}">{{ favorite.substitute.nutrition_grade_fr }}</span>
+        </div>
+        {% if forloop.counter|divisibleby:3 %}<div class="clearfix"></div>{% endif %}
+      {% endfor %}
+      </div>
+    {% endif %}
+  </div>
+  {% if paginate %}
+  <div class="pagination text-center mt-5">
+          {% if watchlistpage.has_previous %}
+              <a class="btn btn-secondary btn-sm text-white" href="?page=1">&laquo; first</a>
+              <a class="btn btn-secondary btn-sm text-white" href="?page={{ watchlistpage.previous_page_number }}">previous</a>
+          {% endif %}
+
+          <span class="current mx-auto">
+              Page {{ watchlistpage.number }} of {{ watchlistpage.paginator.num_pages }}
+          </span>
+
+          {% if watchlistpage.has_next %}
+              <a class="btn btn-secondary btn-sm text-white" href="?page={{ watchlistpage.next_page_number }}">next</a>
+              <a class="btn btn-secondary btn-sm text-white" href="?page={{ watchlistpage.paginator.num_pages }}">last &raquo;</a>
+          {% endif %}
+  </div>
+  {% endif %}
+  <div class="row justify-content-center mt-3">
+      <button class="btn btn-secondary return load">Retour</button>
+  </div>
+</section>
+
+{% endblock %}

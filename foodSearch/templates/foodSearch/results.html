@@ -1,0 +1,109 @@
+{% extends 'foodSearch/base.html' %}
+{% load static %}
+
+{% block content %}
+
+<header class="" style="background-image: url({{ product.image_url }}); background-position: center center;   background-size: initial;   background-repeat: no-repeat; background-color: black;">
+  <div class="container">
+    <div class="row h-100 align-items-center justify-content-center text-center">
+      <div class="col-lg-10 align-self-end">
+        <h1 class="text-uppercase font-weight-bold" style="color:#c45525; background-color:rgba(52,90,97,0.6)">{{ product.name }}</h1>
+      </div>
+    </div>
+  </div>
+</header>
+
+<section style="background-color:#de9440;" class="page-section text-white" id="services">
+  <div class="container">
+    {% if product.nutrition_grade_fr == 'a' %}
+      <h2 class="text-center mt-0">Cet aliment est déjà de nutriscore
+        {% if product.nutrition_grade_fr == 'a' %}
+          <span style="background-color: #5bac09;" class="grade">{{ product.nutrition_grade_fr }}</span>
+        {% endif %}<br>
+         <span>Voici des alternatives similaires :</span></h2>
+    {% else %}
+    <h2 class="text-center mt-0">Vous pouvez remplacer cet aliment de nutriscore
+      <span class="grade {{ product.nutrition_grade_fr }}">{{ product.nutrition_grade_fr }}</span>
+      <span>par :</span></h2>
+    {% endif %}
+    <hr class="divider my-4">
+    {% if result|length_is:"0" %}
+      <div class="text-center">
+        Palsambleu ! Nous n'avons trouvé aucun résultat à cette requête. Même pas de quoi se ronger la chique !
+        Partez de nouveau à l'abordage !
+      </div>
+    {% else %}
+      <div class="row">
+        {% for element in result %}
+          {% for substitute, favorite in element.items %}
+            <div class="col-md-4 text-center mt-5">
+
+              <div class="img_prod row ml-3 mr-3">
+                <a href="/detail/{{ substitute.id }}/" class="m-auto" title="En savoir plus sur ce produit">
+                    <img
+                      class="image-color-theme img-responsive" src="{{ substitute.image_small_url }}" alt="image produit"
+                    />
+                </a>
+              </div>
+
+              <div class="row justify-content-center">
+                <a href="/detail/{{ substitute.id }}/" title="En savoir plus sur ce produit">
+                  <h3 class="h4 mb-2 text-white">{{ substitute.name }}</h3>
+                </a>
+              </div>
+
+              <div class="row justify-content-center">
+                <a href="/detail/{{ substitute.id }}/">En savoir plus sur ce produit</a><br>
+              </div>
+
+              <div class="row justify-content-center">
+                {% if user.is_authenticated %}
+                  <form id="{{ substitute.id }}" class="favoriteForm" method="post">{% csrf_token %}
+                    <input type="hidden" name="user" value="{{ user.id }}">
+                    <input type="hidden" name="substitute" value="{{ substitute.id }}">
+                    <input type="hidden" name="favorite" value="{{ favorite }}">
+                    <input type="hidden" name="product" value="{{ product.id }}">
+                    {% if favorite == "saved" %}
+                      <button type="submit" class="btn btn-link text-white"><span class='fas fa-floppy-o'></span> Retirer ce produit de mes favoris</button>
+                    {% else %}
+                      <button type="submit" class="btn btn-link text-white"><span class='fas fa-floppy-o'></span> Sauvegarder</button>
+                    {% endif %}
+                  </form>
+                {% else %}
+                  <a class="NotConnected" data-toggle="modal" data-target="#modalNotConnected">
+                    <span class='fas fa-floppy-o'></span> Sauvegarder
+                  </a>
+                {% endif %}
+              </div>
+
+              <span class="grade upimg {{ substitute.nutrition_grade_fr }}">{{ substitute.nutrition_grade_fr }}</span>
+
+            </div>
+          {% if forloop.counter|divisibleby:3 %}<div class="clearfix"></div>{% endif %}
+        {% endfor %}
+      {% endfor %}
+      </div>
+    {% endif %}
+
+  </div>
+  {% if paginate %}
+  <div class="pagination text-center mt-5">
+          {% if result.has_previous %}
+              <a class="paginate btn btn-secondary btn-sm text-white" href="?query={{ query }}&page=1">&laquo; first</a>
+              <a class="paginate btn btn-secondary btn-sm text-white" href="?query={{ query }}&page={{ result.previous_page_number }}">previous</a>
+          {% endif %}
+
+          <span class="current mx-auto">
+              Page {{ result.number }} of {{ result.paginator.num_pages }}
+          </span>
+
+          {% if result.has_next %}
+              <a class="paginate btn btn-secondary btn-sm text-white" href="?query={{ query }}&page={{ result.next_page_number }}">next</a>
+              <a class="paginate btn btn-secondary btn-sm text-white" href="?query={{ query }}&page={{ result.paginator.num_pages }}">last &raquo;</a>
+          {% endif %}
+  </div>
+  {% endif %}
+
+</section>
+
+{% endblock %}

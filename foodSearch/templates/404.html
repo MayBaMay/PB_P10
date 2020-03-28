@@ -1,0 +1,11 @@
+{% extends 'foodSearch/base.html' %}
+{% block content %}
+    <section style="background-color:#de9440;" class="page-section error text-black pt-" id="services">
+      <div class="error-msg">
+        <p class="error-type pl-5">Erreur 404</p>
+        <p class="error-txt pl-5">Oups! Vous vous êtes perdu...</p>
+        <p class="error-txt pl-5">Pas d'inquiétude : <a href="{% url 'foodSearch:index' %}">Retour à l'accueil</a></p>
+      </div>
+    </section>
+
+{% endblock %}
