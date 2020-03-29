@@ -19,12 +19,8 @@ from .local import LOCAL_SECRET_KEY, LOCAL_DATABASES
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
-if os.environ.get('ENV') == 'PRODUCTION':
-    DEBUG = False
-    ALLOWED_HOSTS = ['pbp8.herokuapp.com']
-else:
-    DEBUG = True
-    ALLOWED_HOSTS = []
+DEBUG = True
+ALLOWED_HOSTS = []
 
 SECRET_KEY = LOCAL_SECRET_KEY
 
@@ -129,14 +125,5 @@ INTERNAL_IPS = ['127.0.0.1']
 
 LOGOUT_REDIRECT_URL = '/'
 
-if os.environ.get('ENV') == 'PRODUCTION':
-    PROJECT_ROOT = os.path.dirname(os.path.abspath(__file__))
-    STATIC_ROOT = os.path.join(PROJECT_ROOT, 'staticfiles')
-    STATICFILES_DIRS = (
-        os.path.join(PROJECT_ROOT, 'static'),
-    )
 
-    STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
-
-    db_from_env = dj_database_url.config(conn_max_age=500)
-    DATABASES['default'].update(db_from_env)
+STATIC_ROOT = os.path.join(PROJECT_ROOT, 'staticfiles')
