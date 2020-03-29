@@ -4,7 +4,7 @@ from  django.contrib.auth.models import User
 
 class Product(models.Model):
     reference = models.CharField('Référence', max_length=100, unique=True)
-    name = models.CharField('Nom', max_length=200)
+    name = models.CharField('Nom', max_length=200, unique=True)
     formatted_name = models.CharField('Nom', max_length=200)
     brands = models.CharField('Marque', max_length=200)
     formatted_brands = models.CharField('Marque', max_length=200)
