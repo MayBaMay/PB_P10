@@ -15,24 +15,11 @@ import dj_database_url
 
 
 
-if os.environ.get('ENV') == 'PRODUCTION':
-    DEBUG = False
-    ALLOWED_HOSTS = ['188.166.26.66']
-    SECRET_KEY = "LKSF3252"
-    DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'purbeurreprod',
-        'USER': 'maykimay',
-        'PASSWORD': 'hummmsweet!',
-        'HOST': 'localhost',
-        'PORT': '5432',
-        }
-    }
-else:
+if not os.environ.get('ENV') == 'PRODUCTION':
     from .local import SECRET_KEY, DATABASES
-    DEBUG = True
-    ALLOWED_HOSTS = []
+
+DEBUG = True
+ALLOWED_HOSTS = []
 
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
@@ -132,5 +119,4 @@ INTERNAL_IPS = ['127.0.0.1']
 
 LOGOUT_REDIRECT_URL = '/'
 
-if os.environ.get('ENV') == 'PRODUCTION':
-    STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
