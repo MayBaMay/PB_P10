@@ -19,6 +19,16 @@ if os.environ.get('ENV') == 'PRODUCTION':
     DEBUG = False
     ALLOWED_HOSTS = ['pbp8.herokuapp.com']
     SECRET_KEY = "LKSF3252"
+    DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': 'purbeurreprod',
+        'USER': 'maykimay',
+        'PASSWORD': 'hummmsweet!',
+        'HOST': 'localhost',
+        'PORT': '5432',
+        }
+    }
 else:
     from .local import SECRET_KEY, DATABASES
     DEBUG = True
