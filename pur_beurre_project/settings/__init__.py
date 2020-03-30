@@ -19,21 +19,6 @@ if not os.environ.get('ENV') == 'PRODUCTION':
     from .local import SECRET_KEY, DATABASES
     DEBUG = True
     ALLOWED_HOSTS = []
-else:
-    SECRET_KEY = 'ksrf25)ékasdpo43'
-    DEBUG = False
-    ALLOWED_HOSTS = ['134.209.91.210']
-
-    DATABASES = {
-        'default': {
-            'ENGINE': 'django.db.backends.postgresql',
-            'NAME': 'purbeurreprod',
-            'USER': 'maykimay',
-            'PASSWORD': 'hummmsweet!',
-            'HOST': '',
-            'PORT': '5432',
-        }
-    }
 
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
