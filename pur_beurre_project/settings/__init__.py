@@ -17,7 +17,7 @@ import dj_database_url
 
 if os.environ.get('ENV') == 'PRODUCTION':
     DEBUG = False
-    ALLOWED_HOSTS = ['pbp8.herokuapp.com']
+    ALLOWED_HOSTS = ['188.166.26.66']
     SECRET_KEY = "LKSF3252"
     DATABASES = {
     'default': {
