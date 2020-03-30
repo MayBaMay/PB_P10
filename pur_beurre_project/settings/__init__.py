@@ -125,5 +125,4 @@ INTERNAL_IPS = ['127.0.0.1']
 
 LOGOUT_REDIRECT_URL = '/'
 
-
-STATIC_ROOT = os.path.join(PROJECT_ROOT, 'staticfiles')
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
