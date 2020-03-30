@@ -13,7 +13,10 @@ https://docs.djangoproject.com/en/3.0/ref/settings/
 import os
 import dj_database_url
 
-from .local import LOCAL_SECRET_KEY, LOCAL_DATABASES
+
+
+if not os.environ.get('ENV') == 'PRODUCTION':
+    from .local import SECRET_KEY, DATABASES
 
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
@@ -21,8 +24,6 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 DEBUG = True
 ALLOWED_HOSTS = []
-
-SECRET_KEY = LOCAL_SECRET_KEY
 
 # Application definition
 
@@ -74,13 +75,6 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'pur_beurre_project.wsgi.application'
-
-
-# Database
-# https://docs.djangoproject.com/en/3.0/ref/settings/#databases
-
-DATABASES = LOCAL_DATABASES
-
 
 # Password validation
 # https://docs.djangoproject.com/en/3.0/ref/settings/#auth-password-validators
