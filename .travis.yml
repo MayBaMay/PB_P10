@@ -24,7 +24,6 @@ branches:
 
 env:
   - DJANGO_SETTINGS_MODULE=pur_beurre_project.settings.travis
-  - MOZ_HEADLESS=1
 
 services:
   - postgresql
