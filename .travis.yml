@@ -2,13 +2,10 @@ language: python
 python:
   - '3.7'
 
-addons:
-  apt:
-    packages:
-      - firefox-geckodriver
-
 before_install:
-  - export PATH=$PATH:/usr/bin/geckodriver
+- wget https://github.com/mozilla/geckodriver/releases/download/v0.26.0/geckodriver-v0.26.0-linux64.tar.gz
+- mkdir geckodriver && tar zxvf geckodriver-v0.16.0-linux64.tar.gz -C geckodriver
+export PATH=$PATH:$PWD/geckodriver
 
 before_script:
   - pip install -r requirements.txt
