@@ -16,7 +16,8 @@ import dj_database_url
 
 
 if not os.environ.get('ENV') == 'PRODUCTION':
-    from .local import SECRET_KEY, DATABASES
+    if not TRAVIS:
+        from .local import SECRET_KEY, DATABASES
 
 DEBUG = True
 ALLOWED_HOSTS = []
