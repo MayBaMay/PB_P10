@@ -10,9 +10,10 @@ import time
 import datetime
 from statistics import mean
 import unicodedata
+import json
 
 from django.core.management.base import BaseCommand
-from django.db import transaction
+from django.db import transaction, IntegrityError
 
 import openfoodfacts
 
@@ -47,8 +48,68 @@ class InitDB:
                  if unicodedata.category(c) != 'Mn'))
             return sentence_unaccent.upper()
         except:
-            print('upper_unaccent error')
             return sentence
+
+    def load_product(self, product):
+
+        product_infos = {
+                         'required':{'error':False},
+                         'optional':{}
+                         }
+
+        try:
+            # required informations
+            product_infos['required']['reference'] = product["id"],
+            product_infos['required']['name'] = product["product_name"]
+            product_infos['required']['formatted_name'] = self.upper_unaccent(product['product_name'])
+            product_infos['required']['brands'] = product['brands']
+            product_infos['required']['formatted_brands'] = self.upper_unaccent(product['brands'])
+            product_infos['required']['nutrition_grade_fr'] = product["nutrition_grades"]
+            product_infos['required']['url'] = product["url"]
+            product_infos['required']['image_url'] = product["image_url"]
+            product_infos['required']['image_small_url'] = product["image_small_url"]
+
+        except KeyError:
+            product_infos['required']['error'] = True #keep only complete product
+
+        if not product_infos['required']['error']:
+            # optional informations
+
+            try:
+                product_infos['optional']['saturated_fat_100g'] = product['nutriments']['saturated-fat_100g']
+            except KeyError:
+                pass
+            try:
+                product_infos['optional']['carbohydrates_100g'] = product['nutriments']['carbohydrates_100g']
+            except KeyError:
+                pass
+            try:
+                product_infos['optional']['energy_100g'] = product['nutriments']['energy_100g']
+            except KeyError:
+                pass
+            try:
+                product_infos['optional']['sugars_100g'] = product['nutriments']['sugars_100g']
+            except KeyError:
+                pass
+            try:
+                product_infos['optional']['sodium_100g'] = product['nutriments']['sodium_100g']
+            except KeyError:
+                pass
+            try:
+                product_infos['optional']['salt_100g'] = product['nutriments']['salt_100g']
+            except KeyError:
+                pass
+
+        return product_infos
+
+    def load_off_page(self):
+        print("\n")
+        print("loading page "+ str(self.page))
+        # use openfactfood api to load pages
+        page_prods = openfoodfacts.products.get_by_facets(
+            {'country': 'france'}, page=self.page, locale="fr"
+        )
+        return page_prods
 
     def load_datas(self, page, last_page):
         """method loading datas from api in the database"""
@@ -56,72 +117,37 @@ class InitDB:
         self.initial_page = page
         self.page = page # page counter
         self.last_page = last_page # number of page wanted from the api
+        start_time = time.time()
+        n=0
 
         while self.page <= self.last_page:
-            print("\n")
-            print("loading page "+ str(self.page))
-            start_time = time.time()
-            # use openfactfood api to load pages
-            page_prods = openfoodfacts.products.get_by_facets(
-                {'country': 'france'}, page=self.page, locale="fr"
-            )
+            page_prods = self.load_off_page()
 
             for product in page_prods:
+                n+=1
+                product_infos = self.load_product(product)
 
-                try:
-                    saturated_fat_100g = product['nutriments']['saturated-fat_100g']
-                except KeyError:
-                    saturated_fat_100g = ""
-                try:
-                    carbohydrates_100g = product['nutriments']['carbohydrates_100g']
-                except KeyError:
-                    carbohydrates_100g = ""
-                try:
-                    energy_100g = product['nutriments']['energy_100g']
-                except KeyError:
-                    energy_100g = ""
-                try:
-                    sugars_100g = product['nutriments']['sugars_100g']
-                except KeyError:
-                    sugars_100g = ""
-                try:
-                    sodium_100g = product['nutriments']['sodium_100g']
-                except KeyError:
-                    sodium_100g = ""
-                try:
-                    salt_100g = product['nutriments']['salt_100g']
-                except KeyError:
-                    salt_100g = ""
-
-                try:
-                    name = product["product_name"]
-                    formatted_name = self.upper_unaccent(name)
-                    brands = product["brands"]
-                    formatted_brands = self.upper_unaccent(brands)
+                if not product_infos['required']['error']:
 
                     with transaction.atomic():
                         # insert each product in database
 
-                        new_product = Product.objects.create(
-                            reference=product["id"],
-                            name=name,
-                            formatted_name=formatted_name,
-                            brands=brands,
-                            formatted_brands=formatted_brands,
-                            nutrition_grade_fr=product["nutrition_grades"],
-                            url=product["url"],
-                            image_url=product["image_url"],
-                            image_small_url=product["image_small_url"],
-                            saturated_fat_100g=saturated_fat_100g,
-                            carbohydrates_100g=carbohydrates_100g,
-                            energy_100g=energy_100g,
-                            sugars_100g=sugars_100g,
-                            sodium_100g=sodium_100g,
-                            salt_100g=salt_100g,
-                        )
-                        # insert each category in database only if products
-                        # has categories infos(no keyerror in product['categories_hierarchy'])
                         try:
+                            new_product = Product.objects.create(
+                                reference=product_infos['required']["reference"],
+                                name=product_infos['required']['name'],
+                                formatted_name=product_infos['required']['formatted_name'],
+                                brands=product_infos['required']['brands'],
+                                formatted_brands=product_infos['required']['formatted_brands'],
+                                nutrition_grade_fr=product_infos['required']["nutrition_grade_fr"],
+                                url=product_infos['required']["url"],
+                                image_url=product_infos['required']["image_url"],
+                                image_small_url=product_infos['required']["image_small_url"],
+                            )
+                            Product.objects.filter(pk=new_product.id).update(**product_infos['optional'])
+
+                            # insert each category in database only if products
+                            # has categories infos(no keyerror in product['categories_hierarchy'])
                             with transaction.atomic():
                                 for category in product['categories_hierarchy']:
                                     if category[0:3] == 'en:':
@@ -135,10 +161,8 @@ class InitDB:
                                         # in any case, add a relation between Category and Product
                                         cat.products.add(new_product)
                         ###### only keep cleaned datas #######
-                        except:
+                        except IntegrityError:
                             pass
-                except:
-                    pass
 
             print("{} products in database".format(Product.objects.count()))
             print("{} categories in database".format(Category.objects.count()))
@@ -146,6 +170,9 @@ class InitDB:
             print("Temps d'execution page: {} secondes ---".format(tps_page))
             self.tps.append(tps_page)
             self.page += 1
+
+    def update_datas(self):
+        pass
 
 
 class Command(BaseCommand):
@@ -198,7 +225,8 @@ class Command(BaseCommand):
                                Product.objects.count()-products,
                                Category.objects.count(),
                                Category.objects.count()-categories,
-                               round(mean(database.tps), 1)))
+                               round(mean(database.tps), 1)
+                               ))
             file.close()
 
             self.stdout.write(self.style.SUCCESS("\nTemps moyen d'execution : {} secondes ---"

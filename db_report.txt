@@ -1,12 +1,56 @@
 
-            Database updated the 2020-03-28 20:21:02.036127:
-            --- Database FILLED from page 1 to 1000
-            --- 6693 products in database (6693 added)
-            --- 1749 categories in database (1749 added)
-            --- Temps moyen d'execution : 5.3 secondes par page ---
+RESET Database the 2020-04-07 12:55:41.422309:--DATABASE EMPTY
 
-            Database updated the 2020-03-29 00:42:59.551711:
-            --- Database FILLED from page 1001 to 3000
-            --- 17473 products in database (10780 added)
-            --- 2231 categories in database (482 added)
-            --- Temps moyen d'execution : 5.3 secondes par page ---
+RESET Database the 2020-04-07 13:17:17.254026:--DATABASE EMPTY
+
+RESET Database the 2020-04-07 13:27:15.432716:--DATABASE EMPTY
+
+RESET Database the 2020-04-07 13:31:29.230522:--DATABASE EMPTY
+
+            Database updated the 2020-04-07 13:31:31.623767:
+            --- Database FILLED from page 1 to 1
+            --- 5 products in database (5 added)
+            --- 22 categories in database (22 added)
+            --- Temps moyen d'execution : 0.4 secondes par page ---
+
+RESET Database the 2020-04-07 13:34:36.263595:--DATABASE EMPTY
+
+            Database updated the 2020-04-07 13:34:39.670565:
+            --- Database FILLED from page 1 to 1
+            --- 5 products in database (5 added)
+            --- 22 categories in database (22 added)
+            --- Temps moyen d'execution : 0.5 secondes par page ---
+
+RESET Database the 2020-04-07 13:35:13.315504:--DATABASE EMPTY
+
+            Database updated the 2020-04-07 13:35:15.274165:
+            --- Database FILLED from page 1 to 1
+            --- 5 products in database (5 added)
+            --- 22 categories in database (22 added)
+            --- Temps moyen d'execution : 0.4 secondes par page ---
+
+RESET Database the 2020-04-07 13:42:59.640769:--DATABASE EMPTY
+
+RESET Database the 2020-04-07 13:46:38.057801:--DATABASE EMPTY
+
+            Database updated the 2020-04-07 13:47:02.174795:
+            --- Database FILLED from page 1 to 1
+            --- 5 products in database (5 added)
+            --- 22 categories in database (22 added)
+            --- Temps moyen d'execution : 0.4 secondes par page ---
+
+RESET Database the 2020-04-07 13:47:16.312771:--DATABASE EMPTY
+
+            Database updated the 2020-04-07 13:47:35.947326:
+            --- Database FILLED from page 1 to 1
+            --- 5 products in database (5 added)
+            --- 22 categories in database (22 added)
+            --- Temps moyen d'execution : 0.4 secondes par page ---
+
+RESET Database the 2020-04-07 13:49:21.546465:--DATABASE EMPTY
+
+            Database updated the 2020-04-07 13:49:23.608528:
+            --- Database FILLED from page 1 to 1
+            --- 5 products in database (5 added)
+            --- 22 categories in database (22 added)
+            --- Temps moyen d'execution : 0.5 secondes par page ---
