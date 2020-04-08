@@ -59,7 +59,7 @@ class InitDB:
         )
         return page_prods
 
-    def load_product(self, off_json):
+    def load_product(self, off_product):
         """
         load product's infos from openfactfood page of products into a dictionnary
         devided between required fields and optionnal fields
@@ -71,15 +71,15 @@ class InitDB:
 
         try:
             # required informations
-            product_infos["required"]["reference"] = off_json["id"]
-            product_infos["required"]["name"] = off_json["product_name"]
-            product_infos["required"]["formatted_name"] = self.upper_unaccent(off_json["product_name"])
-            product_infos["required"]["brands"] = off_json["brands"]
-            product_infos["required"]["formatted_brands"] = self.upper_unaccent(off_json["brands"])
-            product_infos["required"]["nutrition_grade_fr"] = off_json["nutrition_grades"]
-            product_infos["required"]["url"] = off_json["url"]
-            product_infos["required"]["image_url"] = off_json["image_url"]
-            product_infos["required"]["image_small_url"] = off_json["image_small_url"]
+            product_infos["required"]["reference"] = off_product["id"]
+            product_infos["required"]["name"] = off_product["product_name"]
+            product_infos["required"]["formatted_name"] = self.upper_unaccent(off_product["product_name"])
+            product_infos["required"]["brands"] = off_product["brands"]
+            product_infos["required"]["formatted_brands"] = self.upper_unaccent(off_product["brands"])
+            product_infos["required"]["nutrition_grade_fr"] = off_product["nutrition_grades"]
+            product_infos["required"]["url"] = off_product["url"]
+            product_infos["required"]["image_url"] = off_product["image_url"]
+            product_infos["required"]["image_small_url"] = off_product["image_small_url"]
 
         except KeyError:
             product_infos["required"]["error"] = True #keep only complete product
@@ -88,27 +88,27 @@ class InitDB:
             # optional informations
 
             try:
-                product_infos["optional"]["saturated_fat_100g"] = off_json["nutriments"]["saturated-fat_100g"]
+                product_infos["optional"]["saturated_fat_100g"] = off_product["nutriments"]["saturated-fat_100g"]
             except KeyError:
                 pass
             try:
-                product_infos["optional"]["carbohydrates_100g"] = off_json["nutriments"]["carbohydrates_100g"]
+                product_infos["optional"]["carbohydrates_100g"] = off_product["nutriments"]["carbohydrates_100g"]
             except KeyError:
                 pass
             try:
-                product_infos["optional"]["energy_100g"] = off_json["nutriments"]["energy_100g"]
+                product_infos["optional"]["energy_100g"] = off_product["nutriments"]["energy_100g"]
             except KeyError:
                 pass
             try:
-                product_infos["optional"]["sugars_100g"] = off_json["nutriments"]["sugars_100g"]
+                product_infos["optional"]["sugars_100g"] = off_product["nutriments"]["sugars_100g"]
             except KeyError:
                 pass
             try:
-                product_infos["optional"]["sodium_100g"] = off_json["nutriments"]["sodium_100g"]
+                product_infos["optional"]["sodium_100g"] = off_product["nutriments"]["sodium_100g"]
             except KeyError:
                 pass
             try:
-                product_infos["optional"]["salt_100g"] = off_json["nutriments"]["salt_100g"]
+                product_infos["optional"]["salt_100g"] = off_product["nutriments"]["salt_100g"]
             except KeyError:
                 pass
 
@@ -125,15 +125,15 @@ class InitDB:
         while self.page <= self.last_page:
             page_prods = self.load_off_page()
 
-            for off_json in page_prods:
-                product_infos = self.load_product(off_json)
+            for off_product in page_prods:
+                product_infos = self.load_product(off_product)
 
                 if not product_infos["required"]["error"]:
 
                     if Product.objects.filter(name=product_infos["required"]["name"]).exists():
-                        self.update_product(off_json, product_infos)
+                        self.update_product(off_product, product_infos)
                     else:
-                        self.add_product(off_json, product_infos)
+                        self.add_product(off_product, product_infos)
 
             print("{} products in database".format(Product.objects.count()))
             print("{} categories in database".format(Category.objects.count()))
@@ -143,43 +143,43 @@ class InitDB:
             self.page += 1
 
     @staticmethod
-    def keep_eng_categories(off_json):
+    def keep_eng_categories(off_product):
         """
         keep only relevant categories from openfactfood datas
         Even for french products, categories are mostly in english
         """
         parsed_categories = []
-        for category in off_json["categories_hierarchy"]:
+        for category in off_product["categories_hierarchy"]:
             if category[0:3] == "en:":
                 parsed_categories.append(category)
         return parsed_categories
 
     @staticmethod
-    def update_categories(off_json, product):
+    def update_categories(parsed_categories, product):
         """
         Create if needed a new category &
         Update M2M relation between the produt and categories
         """
         # insert each category in database only if products
         # has categories infos(no keyerror in product["categories_hierarchy"])
+
         with transaction.atomic():
             try:
-                for category in keep_eng_categories(off_json):
-                    if category[0:3] == "en:":
-                        try:
-                            # try to get the category in database
-                            cat = Category.objects.get(reference=category)
-                        except Category.DoesNotExist:
-                            # if category doesn"t exist yet, create one
-                            cat = Category.objects.create(reference=category)
-                            # categ = Category.objects.get(reference=category)
-                        # in any case, add a relation between Category and Product
-                        cat.products.add(product)
+                for category in parsed_categories:
+                    try:
+                        # try to get the category in database
+                        cat = Category.objects.get(reference=category)
+                    except Category.DoesNotExist:
+                        # if category doesn"t exist yet, create one
+                        cat = Category.objects.create(reference=category)
+                        # categ = Category.objects.get(reference=category)
+                    # in any case, add a relation between Category and Product
+                    cat.products.add(product)
             ###### only keep cleaned datas #######
             except:
-                pass
+                print('error')
 
-    def add_product(self, off_json, product_infos):
+    def add_product(self, off_product, product_infos):
         """
         create a new product in database
         """
@@ -200,14 +200,15 @@ class InitDB:
                 )
                 Product.objects.filter(pk=new_product.id).update(**product_infos["optional"])
 
-                self.update_categories(off_json,
+                parsed_categories = self.keep_eng_categories(off_product)
+                self.update_categories(parsed_categories,
                                        new_product)
 
             ###### only keep cleaned datas #######
             except:
                 pass
 
-    def update_product(self, off_json, product_infos):
+    def update_product(self, off_product, product_infos):
         """
         Update product's informations
         """
@@ -217,10 +218,10 @@ class InitDB:
         product.update(**product_infos["optional"])
 
         product = Product.objects.get(name=product_infos["required"]["name"])
-        parsed_categories = self.keep_eng_categories(off_json)
+        parsed_categories = self.keep_eng_categories(off_product)
         if len(parsed_categories) > Category.objects.filter(products__id=product.id).count():
             product.categories.clear()
-            self.update_categories(off_json, product)
+            self.update_categories(off_product, product)
 
 
 class Command(BaseCommand):

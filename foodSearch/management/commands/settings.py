@@ -1,5 +1,5 @@
 # NB: 5 second per page on my laptop
-FIRST_PAGE = 0
+FIRST_PAGE = 501
 LAST_PAGE = 1000
 
 # File dor reporting database changes
