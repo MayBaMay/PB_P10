@@ -1,0 +1,6 @@
+
+            Database updated the 2020-04-07 19:02:56.120755:
+            --- Database FILLED from page 400 to 1000
+            --- 6352 products in database (4114 added)
+            --- 1114 categories in database (0 added)
+            --- Temps moyen d"execution : 1550.2 secondes par page ---
