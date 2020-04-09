@@ -22,7 +22,7 @@ branches:
   only:
     - staging
 
-env: DJANGO_SETTINGS_MODULE=pur_beurre_project.settings
+env: DJANGO_SETTINGS_MODULE=pur_beurre_project.settings.travis
 
 services:
   - postgresql
