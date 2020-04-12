@@ -1,4 +1,5 @@
 SECRET_KEY = '7l*om2l-k#b0ec)e(5_3+z)m4p%9fgh3p*t$(f93hgxjaftr@6'
+DEBUG = False
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
