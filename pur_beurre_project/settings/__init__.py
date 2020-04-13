@@ -19,6 +19,11 @@ try:
 except:
     pass
 
+try:
+    from .production import *
+except:
+    pass
+
 DEBUG = True
 ALLOWED_HOSTS = []
 
