@@ -14,16 +14,16 @@ import os
 import dj_database_url
 
 
+DEBUG = True
+ALLOWED_HOSTS = []
+
 try:
     from .local import SECRET_KEY, DATABASES
 except:
     pass
 
-DEBUG = True
-ALLOWED_HOSTS = []
-
 try:
-    from .production import *
+    from .production import SECRET_KEY, DATABASES, DEBUG, ALLOWED_HOSTS
 except:
     pass
 
