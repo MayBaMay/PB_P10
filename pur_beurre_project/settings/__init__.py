@@ -14,14 +14,21 @@ import os
 import dj_database_url
 
 
-try:
-    from .local import SECRET_KEY, DATABASES
-except:
-    pass
 
 DEBUG = True
 ALLOWED_HOSTS = []
 
+SECRET_KEY = '7l*om2l-k#b0ec)e(5_3+z)m4p%9fgh3p*t$(f93hgxjaftr@6'
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'purbeurreprod', #purbeurreprod
+        'USER': 'maylisbaschet',
+        'PASSWORD': '',
+        'HOST': '',
+        'PORT': '5432',
+    }
+}
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
