@@ -212,16 +212,22 @@ class InitDB:
         """
         Update product's informations
         """
-        product = Product.objects.filter(name=product_infos["required"]["name"])
-        del product_infos["required"]["error"]
-        product.update(**product_infos["required"])
-        product.update(**product_infos["optional"])
+        with transaction.atomic():
+            # insert each product in database
 
-        product = Product.objects.get(name=product_infos["required"]["name"])
-        parsed_categories = self.keep_eng_categories(off_product)
-        if len(parsed_categories) > Category.objects.filter(products__id=product.id).count():
-            product.categories.clear()
-            self.update_categories(off_product, product)
+            try:
+                product = Product.objects.filter(name=product_infos["required"]["name"])
+                del product_infos["required"]["error"]
+                product.update(**product_infos["required"])
+                product.update(**product_infos["optional"])
+
+                product = Product.objects.get(name=product_infos["required"]["name"])
+                parsed_categories = self.keep_eng_categories(off_product)
+                if len(parsed_categories) > Category.objects.filter(products__id=product.id).count():
+                    product.categories.clear()
+                    self.update_categories(off_product, product)
+            except:
+                pass
 
 
 class Command(BaseCommand):
