@@ -255,8 +255,8 @@ class Command(BaseCommand):
 
         if options["fill"]:
 
-            self.stdout.write(self.style.SUCCESS("Command successfully launched")
-            
+            self.stdout.write(self.style.SUCCESS("Command successfully launched"))
+
             products = Product.objects.count()
             categories = Category.objects.count()
 
