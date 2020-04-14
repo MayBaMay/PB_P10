@@ -254,6 +254,9 @@ class Command(BaseCommand):
             self.stdout.write(self.style.SUCCESS("Reset base de données effectué"))
 
         if options["fill"]:
+
+            self.stdout.write(self.style.SUCCESS("Command successfully launched")
+            
             products = Product.objects.count()
             categories = Category.objects.count()
 
