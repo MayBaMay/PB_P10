@@ -51,8 +51,6 @@ class InitDB:
 
     def load_off_page(self):
         """load page of products from openfactfood"""
-        print("\n")
-        print("loading page "+ str(self.page))
         # use openfactfood api to load pages
         page_prods = openfoodfacts.products.get_by_facets(
             {"country": "france"}, page=self.page, locale="fr"
@@ -135,10 +133,7 @@ class InitDB:
                     else:
                         self.add_product(off_product, product_infos)
 
-            print("{} products in database".format(Product.objects.count()))
-            print("{} categories in database".format(Category.objects.count()))
             tps_page = round((time.time() - start_time), 1)
-            print("Temps d'execution page: {} secondes ---".format(tps_page))
             self.tps.append(tps_page)
             self.page += 1
 
@@ -177,7 +172,7 @@ class InitDB:
                     cat.products.add(product)
             ###### only keep cleaned datas #######
             except:
-                print('error')
+                pass
 
     def add_product(self, off_product, product_infos):
         """
@@ -253,39 +248,25 @@ class Command(BaseCommand):
             database = InitDB()
             database.reset_db()
 
-            file = open(DB_REPORTS_FILE, "a")
-            file.write("\nRESET Database the {}:--DATABASE EMPTY\n".format(datetime.datetime.now()))
-            file.close()
-
-            self.stdout.write(self.style.SUCCESS("Reset base de données effectué"))
+            self.stdout.write(self.style.SUCCESS("{} : Reset base de données effectué".format(datetime.datetime.now())))
 
         if options["fill"]:
-
-            self.stdout.write(self.style.SUCCESS("{} : Command successfully launched".format(datetime.datetime.now())))
-
             products = Product.objects.count()
             categories = Category.objects.count()
 
             database = InitDB()
             database.load_datas(FIRST_PAGE, LAST_PAGE)
 
-            file = open(DB_REPORTS_FILE, "a")
-            file.write("""
+            self.stdout.write(self.style.SUCCESS(""""
             Database updated the {}:
             --- Database FILLED from page {} to {}
-            --- {} products in database ({} added)
-            --- {} categories in database ({} added)
+            --- {} products in database
+            --- {} categories in database
             --- Temps moyen d"execution : {} secondes par page ---\n"""
                        .format(datetime.datetime.now(),
                                database.initial_page,
                                database.last_page,
                                Product.objects.count(),
-                               Product.objects.count()-products,
                                Category.objects.count(),
-                               Category.objects.count()-categories,
                                round(mean(database.tps), 1)
-                               ))
-            file.close()
-
-            self.stdout.write(self.style.SUCCESS("\nTemps moyen d'execution : {} secondes ---"
-                                                 .format(round(mean(database.tps), 1))))
+                               )))
