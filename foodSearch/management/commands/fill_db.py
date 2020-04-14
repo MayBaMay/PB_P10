@@ -22,8 +22,6 @@ from .settings import FIRST_PAGE, LAST_PAGE, DB_REPORTS_FILE
 # test avec import des settings de prod
 from pur_beurre_project.settings.production import SECRET_KEY, DATABASES
 
-print(DATABASES)
-
 class InitDB:
     """
     This class defines code relative to reset or fill database
@@ -284,3 +282,6 @@ class Command(BaseCommand):
 
             self.stdout.write(self.style.SUCCESS("\nTemps moyen d'execution : {} secondes ---"
                                                  .format(round(mean(database.tps), 1))))
+
+if "__name__" = "__main__":
+    print(DATABASES)
