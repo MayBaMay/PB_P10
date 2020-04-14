@@ -19,8 +19,6 @@ import openfoodfacts
 from foodSearch.models import Category, Product, Favorite
 from .settings import FIRST_PAGE, LAST_PAGE, DB_REPORTS_FILE
 
-# test avec import des settings de prod
-from pur_beurre_project.settings.production import SECRET_KEY, DATABASES
 
 class InitDB:
     """
@@ -282,6 +280,3 @@ class Command(BaseCommand):
 
             self.stdout.write(self.style.SUCCESS("\nTemps moyen d'execution : {} secondes ---"
                                                  .format(round(mean(database.tps), 1))))
-
-if "__name__" = "__main__":
-    print(DATABASES)
