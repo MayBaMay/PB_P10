@@ -261,7 +261,7 @@ class Command(BaseCommand):
 
         if options["fill"]:
 
-            self.stdout.write(self.style.SUCCESS("Command successfully launched"))
+            self.stdout.write(self.style.SUCCESS("{} : Command successfully launched".format(datetime.datetime.now())))
 
             products = Product.objects.count()
             categories = Category.objects.count()
