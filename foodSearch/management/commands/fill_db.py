@@ -22,6 +22,7 @@ from .settings import FIRST_PAGE, LAST_PAGE, DB_REPORTS_FILE
 # test avec import des settings de prod
 from pur_beurre_project.settings.production import SECRET_KEY, DATABASES
 
+print(DATABASES)
 
 class InitDB:
     """
