@@ -19,6 +19,12 @@ import openfoodfacts
 from foodSearch.models import Category, Product, Favorite
 from .settings import FIRST_PAGE, LAST_PAGE, DB_REPORTS_FILE
 
+# test avec import des settings de prod
+try:
+    from ....pur_beurre_project.settings.production import SECRET_KEY, DATABASES
+except:
+    pass
+
 
 class InitDB:
     """
