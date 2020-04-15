@@ -30,7 +30,7 @@ try:
 except:
     DOMAIN = ''
 
-ALLOWED_HOSTS=[IP, DOMAIN]
+ALLOWED_HOSTS = [IP, DOMAIN]
 
 SECRET_KEY = os.getenv("SECRET_KEY")
 
