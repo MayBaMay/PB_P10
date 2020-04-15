@@ -3,7 +3,6 @@
 __pycache__
 env/
 .env
-pur_beurre_project/settings/local.py
 pur_beurre_project/staticfiles/
 geckodriver.log
 .cache/
