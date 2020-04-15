@@ -18,12 +18,17 @@ import dj_database_url
 DEBUG = True
 ALLOWED_HOSTS = []
 
-SECRET_KEY = '7l*om2l-k#b0ec)e(5_3+z)m4p%9fgh3p*t$(f93hgxjaftr@6'
+try:
+    from .local import DB_NAME, DB_USER, SECRET_KEY
+except:
+    pass
+
+
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'purbeurreprod', #purbeurreprod
-        'USER': 'maylisbaschet',
+        'NAME': DB_NAME,
+        'USER': DB_USER,
         'PASSWORD': '',
         'HOST': '',
         'PORT': '5432',

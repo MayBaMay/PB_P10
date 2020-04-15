@@ -2,7 +2,6 @@
 *.pyc
 __pycache__
 env/
-pur_beurre_project/settings/production.py
 pur_beurre_project/settings/local.py
 pur_beurre_project/staticfiles/
 geckodriver.log
