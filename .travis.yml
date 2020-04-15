@@ -23,7 +23,12 @@ branches:
     - staging
 
 env:
- - DJANGO_SETTINGS_MODULE=pur_beurre_project.settings SECRET_KEY='7l*om2l-k#b0ec)e(5_3+z)m4p%9fgh3p*t$(f93hgxjaftr@6' DB_NAME='' DB_USER='postgres' DB_PASSWORD=''
+  global:
+    - DJANGO_SETTINGS_MODULE=pur_beurre_project.settings
+    - SECRET_KEY='7l*om2l-k#b0ec)e(5_3+z)m4p%9fgh3p*t$(f93hgxjaftr@6'
+    - DB_NAME=''
+    - DB_USER='postgres'
+    - DB_PASSWORD=''
 
 services:
   - postgresql
