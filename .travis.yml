@@ -29,6 +29,7 @@ env:
     - DB_NAME=''
     - DB_USER='postgres'
     - DB_PASSWORD=''
+    - IP=''
 
 services:
   - postgresql
