@@ -12,24 +12,23 @@ https://docs.djangoproject.com/en/3.0/ref/settings/
 
 import os
 import dj_database_url
+from dotenv import load_dotenv
+
+load_dotenv()
 
 
 
 DEBUG = True
 ALLOWED_HOSTS = []
 
-try:
-    from .local import DB_NAME, DB_USER, SECRET_KEY
-except:
-    pass
-
+SECRET_KEY = os.getenv("SECRET_KEY")
 
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': DB_NAME,
-        'USER': DB_USER,
-        'PASSWORD': '',
+        'NAME': os.getenv("DB_NAME"),
+        'USER': os.getenv("DB_USER"),
+        'PASSWORD': os.getenv("DB_PASSWORD"),
         'HOST': '',
         'PORT': '5432',
     }
