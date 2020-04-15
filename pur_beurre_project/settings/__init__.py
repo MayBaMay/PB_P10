@@ -19,10 +19,18 @@ load_dotenv()
 
 
 DEBUG = True
+
 try:
-    ALLOWED_HOSTS = [os.getenv("IP"), os.getenv("DOMAIN")]
+    IP = os.getenv("IP")
 except:
-    ALLOWED_HOSTS=[]
+    IP = ''
+
+try:
+    DOMAIN = os.getenv("DOMAIN")
+except:
+    DOMAIN = ''
+
+ALLOWED_HOSTS=[IP, DOMAIN]
 
 SECRET_KEY = os.getenv("SECRET_KEY")
 
