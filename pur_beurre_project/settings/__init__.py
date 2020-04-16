@@ -20,17 +20,21 @@ load_dotenv()
 
 DEBUG = True
 
+ALLOWED_HOSTS = []
+
 try:
     IP = os.getenv("IP")
+    ALLOWED_HOSTS.append(IP)
 except:
-    IP = ''
+    pass
+
 
 try:
     DOMAIN = os.getenv("DOMAIN")
+    ALLOWED_HOSTS.append(DOMAIN)
 except:
     DOMAIN = ''
 
-ALLOWED_HOSTS = [IP, DOMAIN]
 
 SECRET_KEY = os.getenv("SECRET_KEY")
 
@@ -41,7 +45,7 @@ DATABASES = {
         'USER': os.getenv("DB_USER"),
         'PASSWORD': os.getenv("DB_PASSWORD"),
         'HOST': os.getenv("DB_HOST"),
-        'PORT': os.getenv("DB_PORT"),
+        'PORT': os.getenv("DB_"),
     }
 }
 
