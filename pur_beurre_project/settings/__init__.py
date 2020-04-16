@@ -28,7 +28,6 @@ try:
 except:
     pass
 
-
 try:
     DOMAIN = os.getenv("DOMAIN")
     if DOMAIN:
