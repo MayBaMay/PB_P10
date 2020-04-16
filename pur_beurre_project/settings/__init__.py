@@ -24,14 +24,16 @@ ALLOWED_HOSTS = []
 
 try:
     IP = os.getenv("IP")
-    ALLOWED_HOSTS.append(IP)
+    if IP:
+        ALLOWED_HOSTS.append(IP)
 except:
     pass
 
 
 try:
     DOMAIN = os.getenv("DOMAIN")
-    ALLOWED_HOSTS.append(DOMAIN)
+    if DOMAIN:
+        ALLOWED_HOSTS.append(DOMAIN)
 except:
     pass
 
