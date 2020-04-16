@@ -30,6 +30,7 @@ env:
     - DB_USER='postgres'
     - DB_PASSWORD=''
     - DB_HOST=''
+    - DB_PORT=''
 
 services:
   - postgresql
