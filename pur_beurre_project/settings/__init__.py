@@ -33,7 +33,7 @@ try:
     DOMAIN = os.getenv("DOMAIN")
     ALLOWED_HOSTS.append(DOMAIN)
 except:
-    DOMAIN = ''
+    pass
 
 
 SECRET_KEY = os.getenv("SECRET_KEY")
