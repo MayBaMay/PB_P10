@@ -120,6 +120,7 @@ def search(request):
         'title' : title,
         'found_products': found_products,
     }
+    ERREUR
     logging.info("new search", extra=dict(request=request))
     return render(request, 'foodSearch/search.html', context)
 
