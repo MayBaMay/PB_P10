@@ -106,6 +106,7 @@ def search(request):
     View rendering search page where user confirm his search product with one in DB
     This function uses the class QueryParser from module query_parser.py
     """
+    ERROR
     query = request.GET.get('query')
     title = query
 
