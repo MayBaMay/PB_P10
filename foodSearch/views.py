@@ -17,8 +17,10 @@ from .models import Category, Favorite, Product
 from .query_parser import QueryParser
 from .results_parser import ResultsParser
 
+from django.urls import path
 
-logger = logging.getLogger(__name__)
+def trigger_error(request):
+    division_by_zero = 1 / 0
 
 def index(request):
     """index View"""
@@ -122,7 +124,6 @@ def search(request):
         'title' : title,
         'found_products': found_products,
     }
-    fqzgaqgraq
     return render(request, 'foodSearch/search.html', context)
 
 def results(request, product_id):
