@@ -6,6 +6,7 @@ foodSearch views
 
 import logging
 
+from django.urls import path
 from django.shortcuts import render
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.models import User
@@ -18,6 +19,14 @@ from .query_parser import QueryParser
 from .results_parser import ResultsParser
 
 logger = logging.getLogger(__name__)
+
+def trigger_error(request):
+    division_by_zero = 1 / 0
+
+urlpatterns = [
+    path('sentry-debug/', trigger_error),
+    # ...
+]
 
 def index(request):
     """index View"""
