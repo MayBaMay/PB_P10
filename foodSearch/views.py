@@ -18,6 +18,7 @@ from .query_parser import QueryParser
 from .results_parser import ResultsParser
 
 
+logger = logging.getLogger(__name__)
 
 def index(request):
     """index View"""
@@ -121,7 +122,10 @@ def search(request):
         'title' : title,
         'found_products': found_products,
     }
-    logging.info('New search', extra=dict(request=request))
+    logger.info('New search', exc_info=True, extra={
+        # Optionally pass a request and we'll grab any information we can
+        'request': request,
+    })
     return render(request, 'foodSearch/search.html', context)
 
 def results(request, product_id):
