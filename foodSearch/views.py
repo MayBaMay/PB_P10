@@ -120,7 +120,7 @@ def search(request):
         'title' : title,
         'found_products': found_products,
     }
-    logging.info("new search")
+    logging.info("new search", extra=dict(request=request))
     return render(request, 'foodSearch/search.html', context)
 
 def results(request, product_id):
