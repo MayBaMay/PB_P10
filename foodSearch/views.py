@@ -122,10 +122,7 @@ def search(request):
         'title' : title,
         'found_products': found_products,
     }
-    logger.info('New search', exc_info=True, extra={
-        # Optionally pass a request and we'll grab any information we can
-        'request': request,
-    })
+    fqzgaqgraq
     return render(request, 'foodSearch/search.html', context)
 
 def results(request, product_id):
