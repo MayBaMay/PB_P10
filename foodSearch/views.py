@@ -106,7 +106,6 @@ def search(request):
     View rendering search page where user confirm his search product with one in DB
     This function uses the class QueryParser from module query_parser.py
     """
-    ERROR
     query = request.GET.get('query')
     title = query
 
@@ -121,6 +120,7 @@ def search(request):
         'title' : title,
         'found_products': found_products,
     }
+    logging.info("new search")
     return render(request, 'foodSearch/search.html', context)
 
 def results(request, product_id):
