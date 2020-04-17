@@ -17,7 +17,6 @@ from .models import Category, Favorite, Product
 from .query_parser import QueryParser
 from .results_parser import ResultsParser
 
-logger = logging.getLogger(__name__)
 
 
 def index(request):
@@ -122,7 +121,7 @@ def search(request):
         'title' : title,
         'found_products': found_products,
     }
-    logger.info('New search', exc_info=True, extra={
+    logging.info('New search', exc_info=True, extra={
         'request':request,
     })
     return render(request, 'foodSearch/search.html', context)
