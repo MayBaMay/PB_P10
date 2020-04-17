@@ -15,5 +15,4 @@ urlpatterns = [
     path('load_favorite/', views.load_favorite, name='load_favorite'),
     path('watchlist/', views.watchlist, name='watchlist'),
     path('legals/', views.legals, name='legals'),
-    path('sentry-debug/', trigger_error),
 ]
