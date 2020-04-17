@@ -7,7 +7,7 @@ import sentry_sdk
 from sentry_sdk.integrations.django import DjangoIntegration
 
 sentry_sdk.init(
-    dsn="https://e2bb23a862b14cc6a4bb50bf23f1c94f@o371148.ingest.sentry.io/5203737",
+    dsn="https://57df46d460e3492997462bddc1118433@o371148.ingest.sentry.io/5203994",
     integrations=[DjangoIntegration()],
 
     # If you wish to associate users to errors (assuming you are using
@@ -21,7 +21,7 @@ INSTALLED_APPS += [
 
 
 RAVEN_CONFIG = {
-    'dsn': 'https://e2bb23a862b14cc6a4bb50bf23f1c94f@o371148.ingest.sentry.io/5203737', # caution replace by your own!!
+    'dsn': 'https://57df46d460e3492997462bddc1118433@o371148.ingest.sentry.io/5203994', # caution replace by your own!!
     # If you are using git, you can also automatically configure the
     # release based on the git info.
     'release': raven.fetch_git_sha(os.path.dirname(os.pardir)),
