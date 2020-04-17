@@ -14,7 +14,7 @@ sentry_logging = LoggingIntegration(
 
 sentry_sdk.init(
     dsn="https://57df46d460e3492997462bddc1118433@o371148.ingest.sentry.io/5203994",
-    integrations=[DjangoIntegration, sentry_logging],
+    integrations=[DjangoIntegration(), sentry_logging],
 
     # If you wish to associate users to errors (assuming you are using
     # django.contrib.auth) you may enable sending PII data.
