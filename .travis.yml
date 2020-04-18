@@ -36,3 +36,6 @@ services:
 
 script:
   - ./manage.py test
+
+after_success:
+  - ./merge_script.sh
