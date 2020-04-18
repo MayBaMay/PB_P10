@@ -1,3 +1,4 @@
+#!/bin/bash
 if [ "$TRAVIS_BRANCH" != "staging" ]; then
     exit 0;
 fi
