@@ -257,12 +257,12 @@ class Command(BaseCommand):
             database = InitDB()
             database.load_datas(FIRST_PAGE, LAST_PAGE)
 
-            self.stdout.write(self.style.SUCCESS("""
-            Database updated the {}:
+            self.stdout.write(self.style.SUCCESS("""Database updated the {}:
             --- Database UPDATED from page {} to {}
             --- {} products in database
             --- {} categories in database
-            --- Temps moyen d"execution : {} secondes par page ---\n"""
+            --- Temps moyen d"execution : {} secondes par page ---\n
+            \n"""
                        .format(datetime.datetime.now(),
                                database.initial_page,
                                database.last_page,
