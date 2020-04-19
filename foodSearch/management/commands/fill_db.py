@@ -257,7 +257,7 @@ class Command(BaseCommand):
             database = InitDB()
             database.load_datas(FIRST_PAGE, LAST_PAGE)
 
-            self.stdout.write(self.style.SUCCESS("""
+            self.stdout.write(self.style.SUCCESS("""\
             Database updated the {}:
             --- Database UPDATED from page {} to {}
             --- {} products in database
