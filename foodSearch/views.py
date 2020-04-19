@@ -4,8 +4,6 @@
 foodSearch views
 """
 
-import logging
-
 from django.shortcuts import render
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.models import User
@@ -17,7 +15,6 @@ from .models import Category, Favorite, Product
 from .query_parser import QueryParser
 from .results_parser import ResultsParser
 
-logger = logging.getLogger(__name__)
 
 def index(request):
     """index View"""
@@ -121,9 +118,6 @@ def search(request):
         'title' : title,
         'found_products': found_products,
     }
-    logger.info('New search', exc_info=True, extra={
-        'request':request,
-    })
     return render(request, 'foodSearch/search.html', context)
 
 def results(request, product_id):
