@@ -9,7 +9,7 @@ When registered, the user can save those favorite subsitutes.
 
 Fork the project on you github account.
 
-## Deployemnet
+## Deployment
 
 ### IaaS Digital Ocean
 Configuration :<br/>
@@ -37,8 +37,8 @@ $ ssh root@<your ip adress>
 Are you sure you want to continue connecting (yes/no)? yes
 Création d’un nouvel utilisateur :
 root@bonapp:~# adduser <username>
-Enter new UNIX password: rantanplan
-Retype new UNIX password: rantanplan
+Enter new UNIX password: <your password>
+Retype new UNIX password: <your password>
 passwd: password updated successfully
 Changing the user information for <username>
 Enter the new value, or press ENTER for the default
@@ -103,12 +103,12 @@ Create a virtual environnment and load dependencies
 env) <username>@bonapp:~$ touch PB_P10/pur_beurre_project/settings/.env
 (env) <username>@bonapp:~$ vi PB_P10/pur_beurre_project/settings/.env
 
-SECRET_KEY = '7l*om2l-k#b0ec)e(5_3+z)m4p%9fgh3p*t$(f93hgxjaftr@6'
+SECRET_KEY = <your secret_key>
 DB_NAME = 'purbeurre'
 DB_USER = '<username>'
 DB_HOST = ''
 DB_PORT = '5432'
-DB_PASSWORD = 'rDxG$VF=m97!&XBmY'
+DB_PASSWORD = '<your password>'
 IP = '<your ip adress>'
 ```
 ### Création de la base et migration des données
@@ -118,7 +118,7 @@ psql (12.2 (Ubuntu 10.12-0ubuntu0.18.04.1))
 Type "help" for help.
 
 postgres=# CREATE DATABASE purbeurre;
-postgres=#  CREATE USER <username> WITH PASSWORD 'rDxG$VF=m97!&XBmY';
+postgres=#  CREATE USER <username> WITH PASSWORD '<your password>';
 postgres=#  ALTER ROLE <username> SET client_encoding TO 'utf8';
 postgres=# ALTER ROLE <username> SET default_transaction_isolation TO 'read committed';
 postgres=#  ALTER ROLE <username> SET timezone TO 'Europe/Paris';
@@ -177,7 +177,7 @@ Reload Nginx configuration
 (env) <username>@bonapp:~$ sudo service nginx reload
 ```
 
-### Installation et configuration de gunicorn et Supervisor
+### Gunicorn and Supervisor installation and configuration
 
 ```
 (env) <username>@bonapp:~$ sudo apt-get install supervisor
@@ -204,18 +204,18 @@ purbeurre -gunicorn: added process group
 ### Database
 In case of models modifications :
 ```
-(env) maykimay@bonapp:~$ python PB_P10/manage.py makemigrations
-(env) maykimay@bonapp:~$ python PB_P10/manage.py migrate
+(env) <username>@bonapp:~$ python PB_P10/manage.py makemigrations
+(env) <username>@bonapp:~$ python PB_P10/manage.py migrate
 ```
 
 Automatic Cron task for updating database can be added :
 ```
-(env) maykimay@bonapp:~$ crontab -e
+(env) <username>@bonapp:~$ crontab -e
 
 # m h  dom mon dow   command
-00 00    * * 0    /home/maykimay/update_db.sh
+00 00    * * 0    /home/<username>/update_db.sh
 
-(env) maykimay@bonapp:~$ vi update_db.sh
+(env) <username>@bonapp:~$ vi update_db.sh
 #!/bin/bash
 echo --- crontab-began $(date) --- >> /tmp/update_db.log
 source env/bin/activate
@@ -224,25 +224,25 @@ deactivate
 echo crontab-ends $(date) >> /tmp/update_db.log
 exit
 
-(env) maykimay@bonapp:~$ chmod +x update_db.sh
+(env) <username>@bonapp:~$ chmod +x update_db.sh
 ```
 
 ### Nginx
 In case of Nginx configurations modifications :
 ```
-(env) maykimay@bonapp:/etc/nginx$ sudo service nginx reload
+(env) <username>@bonapp:/etc/nginx$ sudo service nginx reload
 ```
 
 ### supervisor
 In case of Supervisor configurations modifications :
 ```
-(env) maykimay@bonapp:~$  sudo supervisorctl restart purbeurre-gunicorn
-(env) maykimay@bonapp:~$  sudo supervisorctl reread
+(env) <username>@bonapp:~$  sudo supervisorctl restart purbeurre-gunicorn
+(env) <username>@bonapp:~$  sudo supervisorctl reread
 purbeurre -gunicorn: available
-(env) maykimay@bonapp:~$  sudo supervisorctl update
+(env) <username>@bonapp:~$  sudo supervisorctl update
 purbeurre -gunicorn: added process group
 Puis vérifiez que le processus a bien été ajouté en tapant la commande status :
-(env) maykimay@bonapp:~$  sudo supervisorctl status
+(env) <username>@bonapp:~$  sudo supervisorctl status
 ```
 
 ## Monitoring
@@ -252,7 +252,7 @@ Be alerted for each errors occured on your application with Sentry<br/>
 Create an account https://sentry.io/signup/ and a new Django project <br/>
 Then install th sentry-sdk librairy :
 ```
-(env) maykimay@bonapp:~$  pip install --upgrade 'sentry-sdk==0.14.3'
+(env) <username>@bonapp:~$  pip install --upgrade 'sentry-sdk==0.14.3'
 ```
 Modify in your dev environnment the dsn address in the production.py module
 ```
@@ -266,8 +266,8 @@ sentry_sdk.init(
 ```
 Commit the changes, push on Github and come back to your server
 ```
-(env) maykimay@bonapp:~$  cd  PB_P10
-(env) maykimay@bonapp:~/PB_P10$  git pull origin master
+(env) <username>@bonapp:~$  cd  PB_P10
+(env) <username>@bonapp:~/PB_P10$  git pull origin master
 ```
 Your app will now be on the surveillance of Sentry
 
