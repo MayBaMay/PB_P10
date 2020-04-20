@@ -262,11 +262,9 @@ class Command(BaseCommand):
             --- Database UPDATED from page {} to {}
             --- {} products in database
             --- {} categories in database
-            --- Temps moyen d"execution : {} secondes par page ---\n"""
                        .format(datetime.datetime.now(),
                                database.initial_page,
                                database.last_page,
                                Product.objects.count(),
                                Category.objects.count(),
-                               round(mean(database.tps), 1)
                                )))
