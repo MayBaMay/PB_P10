@@ -2,7 +2,11 @@
 This open source project was created for the OpenClassRooms' Python developer course (Project 10/13)).
 Its purpose is to deploy an application on a distant server, in this case Digital Ocean, using a Nginx web server, gunicorn and supervisor.
 
-We used the Purbeurre application deployed on Heroku for the [projet #8](https://github.com/MayBaMay/PB_P8) of this course. It is a DJANGO application integrating a back-end part based on Python 3.7 and a front-end part developed with HTML5, CSS3 and JavaScript using Bootsrap.
+We used the Purbeurre application deployed on Heroku for the [projet #8](https://github.com/MayBaMay/PB_P8) of this course. It is a DJANGO application integrating a back-end part based on Python 3.7 and a front-end part developed with HTML5, CSS3 and JavaScript using Rappel concernant les règles de confidentialité de Google
+Résultats de recherche
+Résultat Web avec des liens annexes
+
+Bootstrap.
 
 Ask the application a product name, select one of the products to confirm your choice and it will give you a list of similar products with a better nutriscore.
 When registered, the user can save those favorite subsitutes.
@@ -111,7 +115,7 @@ DB_PORT = '5432'
 DB_PASSWORD = '<your password>'
 IP = '<your ip adress>'
 ```
-### Création de la base et migration des données
+### Database creation and migrations
 ```
 (env) <username>@bonapp:~$ sudo -u postgres psql
 psql (12.2 (Ubuntu 10.12-0ubuntu0.18.04.1))
@@ -144,7 +148,7 @@ Load json dumps
 (env) <username>@bonapp:~$ python PB_P10/manage.py loaddata foodSearch/dumps/foodSearch.json
 ```
 
-### Création du serveur Nginx
+### Nginx configuration
 
 ```
 (env) <username>@bonapp:~$ sudo apt-get install nginx
