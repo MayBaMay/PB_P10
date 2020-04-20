@@ -245,8 +245,8 @@ Puis vérifiez que le processus a bien été ajouté en tapant la commande statu
 (env) <username>@bonapp:~$  sudo supervisorctl status
 ```
 
-### application
-For any modification into your application code, we recommand to use your developpement environment on a branch "staging" with a Travis validation before merging it in your "master" branch and then deploy it in your server.<br/>
+### Application
+For any modification into your application code, we recommand to use your developpement environment on a branch "staging" with a **[Travis](https://travis-ci.com/signin)** validation before merging it in your "master" branch and then deploy it in your server.<br/>
 Sign up a Travis account with your github and active your repository.<br/>
 The Travis configuration is contained in the `.travis.yml` file.<br/>
 
