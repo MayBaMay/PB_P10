@@ -261,7 +261,7 @@ class Command(BaseCommand):
             Database updated the {}:
             --- Database UPDATED from page {} to {}
             --- {} products in database
-            --- {} categories in database
+            --- {} categories in database"""
                        .format(datetime.datetime.now(),
                                database.initial_page,
                                database.last_page,
